@@ -4,6 +4,7 @@ const cors = require("cors")
 const morgan = require("morgan")
 
 const connectDB = require("./config/db")
+const errorHandler = require("./middleware/errorMiddleware")
 
 dotenv.config()
 
@@ -24,6 +25,8 @@ app.use("/api/progress", require("./routes/progressRoutes"))
 app.get("/", (req, res) => {
     res.send("Fitness Tracker API Running")
 })
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 

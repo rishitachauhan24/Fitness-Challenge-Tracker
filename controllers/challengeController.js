@@ -1,4 +1,4 @@
-const Challenge = require("../models/Challenge")
+const Challenge = require("../models/challenge")
 
 exports.createChallenge = async (req, res) => {
     try {
@@ -39,6 +39,12 @@ exports.updateChallenge = async (req, res) => {
             { new: true }
         )
 
+        if (!challenge) {
+            return res.status(404).json({
+                message: "Challenge not found"
+            })
+        }
+
         res.status(200).json(challenge)
 
     } catch (error) {
@@ -50,7 +56,13 @@ exports.updateChallenge = async (req, res) => {
 
 exports.deleteChallenge = async (req, res) => {
     try {
-        await Challenge.findByIdAndDelete(req.params.id)
+        const challenge = await Challenge.findByIdAndDelete(req.params.id)
+
+        if (!challenge) {
+            return res.status(404).json({
+                message: "Challenge not found"
+            })
+        }
 
         res.status(200).json({
             message: "Challenge Deleted"
